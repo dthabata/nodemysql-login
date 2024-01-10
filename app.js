@@ -16,7 +16,7 @@ db.connect((error) => {
     } else {
         console.log("MySQL connected...")
     }
-})
+});
 
 app.get("/", (req, res) => {
     res.send("<h1>Home page</h1>")
