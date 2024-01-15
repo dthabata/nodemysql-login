@@ -1,6 +1,6 @@
-const express = require("express");
+const express = require('express');
 const path = require('path');
-const mysql = require("mysql");
+const mysql = require('mysql');
 const dotenv = require('dotenv');
 
 dotenv.config({
@@ -23,22 +23,15 @@ app.set('view engine', 'hbs');
 
 db.connect((error) => {
     if(error) {
-        console.log(error)
+        console.log(error);
     } else {
-        console.log("MySQL connected...")
+        console.log('MySQL connected...');
     }
 });
 
-app.get("/", (req, res) => {
-    // res.send("<h1>Home page</h1>")
-    res.render("index");
-});
-
-app.get("/register", (req, res) => {
-    // res.send("<h1>Home page</h1>")
-    res.render("register");
-});
+// define routes
+app.use('/', require('./routes/pages'));
 
 app.listen(5000, () => {
-    console.log("Server started on port 5000")
+    console.log('Server started on port 5000');
 });
