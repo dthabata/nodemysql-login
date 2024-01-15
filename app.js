@@ -34,6 +34,11 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
+app.get("/register", (req, res) => {
+    // res.send("<h1>Home page</h1>")
+    res.render("register");
+});
+
 app.listen(5000, () => {
     console.log("Server started on port 5000")
 });
