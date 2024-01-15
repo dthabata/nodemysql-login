@@ -26,7 +26,7 @@ exports.login = async (req, res) => {
                 });
             } else {
                 const id = results[0].id;
-                const token = jwt.sign({ id }, process.send.JWT_SECRET, {
+                const token = jwt.sign({ id }, process.env.JWT_SECRET, {
                     expiresIn: process.env.JWT_EXPIRES_IN
                 });
 
@@ -39,7 +39,7 @@ exports.login = async (req, res) => {
                     httpOnly: true
                 }
 
-                res.cookie('jwt', token, cookieOptions );
+                res.cookie('jwt', token, cookieOptions);
                 res.status(200).redirect('/');
 
                 }
