@@ -9,6 +9,20 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 });
 
+exports.login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).render('login', {
+                message: 'Please provide a valid email and password'
+            });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 exports.register = (req, res) => {
     console.log(req.body);
 
