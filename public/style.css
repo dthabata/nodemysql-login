@@ -36,11 +36,11 @@ nav li a:hover {
 }
 
 .avatar-ctn {
-    background-color: orange;
+    background-color: #1E6DB0;
     text-align: center;
 }
 
 .avatar {
-    width: 65%;
+    width: 62.5%;
     border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }

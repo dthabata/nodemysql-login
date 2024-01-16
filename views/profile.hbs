@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="/style.css">
-    <title>Document</title>
+    <title>Login Project</title>
 </head>
 <body>
     <nav>
-        <h4>Login Project // Node MySQL</h4>
+        <h4>Login Project</h4>
         <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/profile">Profile</a></li>
@@ -26,8 +26,7 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">{{user.name}}</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">{{user.email}}</a>
+                <p class="card-text">{{user.email}}</p>
             </div>
             </div>
         </div>
@@ -39,11 +38,13 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">Hey {{user.name}}, welcome back!</h5>
-                <p class="card-text">This is your profile page where you can add all the information about yourself</p>
-                <a href="#" class="btn btn-primary">Go Somewhere</a>
+                <p class="card-text">This is your profile page, where you can check if the information about yourself is correct.</p>
+                <p class="card-text">Is the e-mail displayed in your left side the same you used to register and login?</p>
+                <p class="card-text">Are we calling you by the correct name?</p>
+                <p class="card-text">Great! You are safe in our database!</p>
             </div>
             <div class="card-footer text-muted">
-                Login Project - Node MySQL
+                Login Project
             </div>
             </div>
         </div>
