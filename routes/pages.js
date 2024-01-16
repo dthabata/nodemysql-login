@@ -15,6 +15,7 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/profile', authController.isLoggedIn, (req, res) => {
+    
     res.render('profile');
 });
 
