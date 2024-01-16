@@ -1,5 +1,5 @@
 nav {
-    background-color: #563D7C;
+    background-color: #D8534E;
     color: #FFF;
     padding: 30px 60px;
     display: flex;
@@ -25,8 +25,14 @@ nav li a {
 }
 
 nav li a:hover {
-    color: yellow;
-    text-decoration: none;
+    color: #FFF;
+    text-decoration: #FFF wavy underline;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .avatar-ctn {
