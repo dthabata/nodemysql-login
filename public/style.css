@@ -29,12 +29,6 @@ nav li a:hover {
     text-decoration: #FFF wavy underline;
 }
 
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .avatar-ctn {
     background-color: #1E6DB0;
     text-align: center;
