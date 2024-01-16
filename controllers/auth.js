@@ -88,17 +88,35 @@ exports.register = (req, res) => {
 };
 
 exports.isLoggedIn = async (req, res, next) => {
-    console.log(req.cookies);
-    if (req.cookies.jwt) {
+    // console.log(req.cookies);
+    if( req.cookies.jwt) {
         try {
+            // verify the token
             const decoded = await promisify(jwt.verify)(req.cookies.jwt,
-                process.env.JWT_SECRET
+            process.env.JWT_SECRET
             );
-
+    
             console.log(decoded);
+    
+            // check if the user still exists
+            db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (error, result) => {
+            console.log(result);
+    
+            if (!result || error) {
+                return next();
+            }
+    
+            req.user = result[0];
+            console.log("user is")
+            console.log(req.user);
+            return next();
+    
+            });
         } catch (error) {
-            
+            console.log(error);
+            return next();
         }
+    } else {
+        next();
     }
-    next();
 };
