@@ -31,6 +31,7 @@ exports.login = async (req, res) => {
                     expiresIn: process.env.JWT_EXPIRES_IN
                 });
 
+                // shows the token 
                 console.log('The token is: ' + token);
 
                 const cookieOptions = {
@@ -52,8 +53,6 @@ exports.login = async (req, res) => {
 };
 
 exports.register = (req, res) => {
-    console.log(req.body);
-
     const { name, email, password, passwordConfirm } = req.body;
 
     db.query('SELECT email FROM users WHERE email = ?', [email], async (error, results) => {
@@ -88,7 +87,6 @@ exports.register = (req, res) => {
 };
 
 exports.isLoggedIn = async (req, res, next) => {
-    // console.log(req.cookies);
     if( req.cookies.jwt) {
         try {
             // verify the token
