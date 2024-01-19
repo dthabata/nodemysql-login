@@ -87,7 +87,7 @@ exports.register = (req, res) => {
 };
 
 exports.isLoggedIn = async (req, res, next) => {
-    if( req.cookies.jwt) {
+    if(req.cookies.jwt) {
         try {
             // verify the token
             const decoded = await promisify(jwt.verify)(req.cookies.jwt,

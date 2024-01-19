@@ -18,6 +18,7 @@ const db = mysql.createConnection({
 });
 
 const publicDirectory = path.join(__dirname, './public');
+console.log(publicDirectory);
 app.use(express.static(publicDirectory));
 
 // parse url-encoded bodies (as sent by HTML forms)
