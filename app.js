@@ -28,6 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
+app.set('views', path.join(__dirname, './src/views'));
 app.set('view engine', 'hbs');
 
 db.connect((error) => {
@@ -42,7 +43,6 @@ db.connect((error) => {
 app.use('/', require('./src/routes/pages'));
 app.use('/auth', require('./src/routes/auth'));
 
-// testing listen
 app.listen(5000, () => {
     console.log('Server started on port 5000');
 });
