@@ -1,8 +1,9 @@
 const mysql = require('mysql');
-// TODO: remove JWT logic
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { promisify } = require('util');
+
+// TODO: remove JWT logic
 
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
@@ -87,7 +88,6 @@ exports.register = (req, res) => {
     });
 };
 
-// TODO: remove JWT logic
 exports.isLoggedIn = async (req, res, next) => {
     if(req.cookies.jwt) {
         try {
@@ -121,7 +121,6 @@ exports.isLoggedIn = async (req, res, next) => {
     }
 };
 
-// TODO: remove JWT logic
 exports.logout = async (req, res) => {
     res.cookie('jwt', 'logout', {
         expires: new Date(Date.now() + 2 * 1000),
