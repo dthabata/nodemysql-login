@@ -17,7 +17,7 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 });
 
-const publicDirectory = path.join(__dirname, './public');
+const publicDirectory = path.join(__dirname, './src/public');
 console.log(publicDirectory);
 app.use(express.static(publicDirectory));
 
@@ -39,8 +39,8 @@ db.connect((error) => {
 });
 
 // define routes
-app.use('/', require('./routes/pages'));
-app.use('/auth', require('./routes/auth'));
+app.use('/', require('./src/routes/pages'));
+app.use('/auth', require('./src/routes/auth'));
 
 app.listen(5000, () => {
     console.log('Server started on port 5000');
