@@ -35,3 +35,7 @@ exports.loginApi = async (req, res) => {
         console.log(error);
     }
 };
+
+// exports.registerApi = async (req, res) => {
+//     res.setHeader('Content-Type', 'application/json');
+// };
