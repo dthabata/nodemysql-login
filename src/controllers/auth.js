@@ -3,8 +3,6 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { promisify } = require('util');
 
-// TODO: remove JWT logic
-
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
@@ -24,6 +22,8 @@ exports.login = async (req, res) => {
 
         db.query('SELECT * FROM users where email = ?', [email], async (error, results) => {
             if (!results || !(await bcrypt.compare(password, results[0].password))) {
+                // res.end(JSON.stringify({ "message": "Email or password is incorrect", "status": false, "token": "" }));
+                
                 res.status(401).render('login', {
                     message: 'Email or password is incorrect'
                 });
@@ -45,7 +45,6 @@ exports.login = async (req, res) => {
 
                 res.cookie('jwt', token, cookieOptions);
                 res.status(200).redirect('/');
-
                 }
             });
 

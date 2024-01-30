@@ -42,6 +42,7 @@ db.connect((error) => {
 // define routes
 app.use('/', require('./src/routes/pages'));
 app.use('/auth', require('./src/routes/auth'));
+app.use('/api', require('./src/routes/api'));
 
 app.listen(5000, () => {
     console.log('Server started on port 5000');
