@@ -11,19 +11,20 @@ const db = mysql.createConnection({
 });
 
 exports.loginApi = async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
     try {
         const { email, password } = req.body;
-        res.setHeader('Content-Type', 'application/json');
 
         if (!email || !password) {
             res.end(JSON.stringify({ "message": "Falta de email ou senha", "status": false, "token": "" }));
-        }
+        } else {
 
         console.log(email);
         console.log(password);
 
-        res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({ b: 2 }));
+}
     } catch (error) {
         console.log(error);
     }
