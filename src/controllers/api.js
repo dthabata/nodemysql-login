@@ -19,11 +19,17 @@ exports.loginApi = async (req, res) => {
         if (!email || !password) {
             res.end(JSON.stringify({ "message": "Falta de email ou senha", "status": false, "token": "" }));
         } else {
-
-        console.log(email);
-        console.log(password);
-
-        res.end(JSON.stringify({ b: 2 }));
+        db.query('SELECT * FROM users where email = ?', [email], async (error, results) => {
+            if (!results || results.length == 0 || !(await bcrypt.compare(password, results[0].password))) {               
+                res.end(JSON.stringify({ "message": "Não encontrou resultados", "status": false, "token": "" }));
+            } else {
+                const id = results[0].id;
+                const token = jwt.sign({ id }, process.env.JWT_SECRET, {
+                    expiresIn: process.env.JWT_EXPIRES_IN
+                });
+                res.end(JSON.stringify({ "message": "Ok", "status": false, "token": token }));
+            }
+        });
 }
     } catch (error) {
         console.log(error);
