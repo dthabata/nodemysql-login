@@ -39,7 +39,7 @@ exports.loginApi = async (req, res) => {
 exports.registerApi = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
-    const { name, email, password, passwordConfirm } = req.body;
+    const { name, email, password } = req.body;
 
     db.query('SELECT email FROM users WHERE email = ?', [email], async (error, results) => {
         
@@ -50,10 +50,6 @@ exports.registerApi = async (req, res) => {
         if (results.length > 0) {
             return res.end(JSON.stringify({ "message": "E-mail já em uso", "status": false }));
         } 
-
-        else if (password !== passwordConfirm) {
-            return res.end(JSON.stringify({ "message": "As senhas não batem", "status": false }));
-        }
     
         let hashedPassword = await bcrypt.hash(password, 8);
 
