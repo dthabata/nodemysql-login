@@ -40,3 +40,19 @@ exports.getAnimalByIdApi = async (req, res) => {
         return res.end(JSON.stringify(resp));
     });
 };
+
+exports.updateAnimalApi = async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    const { id } = req.params;
+    const { name, breed, age, color } = req.body;
+
+    db.query('UPDATE animal SET name = ?, breed = ?, age = ?, color = ? WHERE id = ?', [name, breed, age, color, id], (error, results) => {
+        if (error) {
+            console.log(error); 
+            return res.end(JSON.stringify({ "message": error, "status": false }));
+        } else {
+            return res.end(JSON.stringify({ "message": "Animal atualizado", "status": true }));
+        }
+    })
+};
