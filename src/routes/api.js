@@ -5,6 +5,6 @@ const router = express.Router();
 router.post('/login', apiController.loginApi);
 router.post('/register', apiController.registerApi);
 router.put('/update/:id', apiController.updateApi);
-// router.post('/delete', apiController.deleteApi);
+router.delete('/delete/:id', apiController.deleteApi);
 
 module.exports = router;
