@@ -20,3 +20,28 @@ exports.createAnimalApi = async (req, res) => {
         }
     });
 };
+
+exports.getAnimalByIdApi = async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    const { id } = req.params;
+
+    db.query('SELECT * FROM animal WHERE id = ?', [id], (error, results) => {
+
+        console.log(results);
+        let resp = {};
+
+        if (error) {
+            console.log(error);
+        } 
+        
+        if (results.length > 0) {
+            resp = results[0];
+            return res.end(JSON.stringify(resp));
+        }
+        
+        else {
+            return res.end(JSON.stringify(results));
+        }
+    });
+};
