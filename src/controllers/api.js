@@ -62,3 +62,6 @@ exports.registerApi = async (req, res) => {
         })
     });
 };
+
+// exports.updateApi = async (req, res) => {
+// };
