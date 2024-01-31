@@ -1,6 +1,4 @@
 const mysql = require('mysql');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
@@ -9,6 +7,16 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 });
 
-exports.registerApi = async (req, res) => {
+exports.createAnimalApi = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
+
+    const { name, breed, age, color } = req.body;
+
+    db.query('INSERT INTO animal SET name = ?, breed = ?, age = ?, color = ?', [name, breed, age, color], (error, results) => {
+        if (error) {
+            console.log(error);
+        } else {
+            return res.end(JSON.stringify({ "message": "Animal cadastrado", "status": false }));
+        }
+    });
 };

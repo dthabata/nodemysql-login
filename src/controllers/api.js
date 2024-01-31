@@ -11,7 +11,7 @@ const db = mysql.createConnection({
 
 exports.loginApi = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-
+    
     try {
         const { email, password } = req.body;
 
@@ -29,7 +29,7 @@ exports.loginApi = async (req, res) => {
                 res.end(JSON.stringify({ "message": "Ok", "status": false, "token": token }));
             }
         });
-}
+        }
     } catch (error) {
         console.log(error);
     }

@@ -13,13 +13,11 @@ const db = mysql.createConnection({
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
-
         if (!email || !password) {
             return res.status(400).render('login', {
                 message: 'Please provide a valid email and password'
             });
         }
-
         db.query('SELECT * FROM users where email = ?', [email], async (error, results) => {
             if (!results || !(await bcrypt.compare(password, results[0].password))) {
                 // res.end(JSON.stringify({ "message": "Email or password is incorrect", "status": false, "token": "" }));
@@ -47,7 +45,6 @@ exports.login = async (req, res) => {
                 res.status(200).redirect('/');
                 }
             });
-
     } catch (error) {
         console.log(error);
     }
@@ -83,12 +80,12 @@ exports.register = (req, res) => {
                     message: 'User registered'
                 });
             }
-        })
+        });
     });
 };
 
 exports.isLoggedIn = async (req, res, next) => {
-    if(req.cookies.jwt) {
+    if (req.cookies.jwt) {
         try {
             // verify the token
             const decoded = await promisify(jwt.verify)(req.cookies.jwt,
