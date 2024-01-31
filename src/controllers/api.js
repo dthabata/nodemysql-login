@@ -63,5 +63,19 @@ exports.registerApi = async (req, res) => {
     });
 };
 
-// exports.updateApi = async (req, res) => {
-// };
+exports.updateApi = async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    const {id, name, email, password } = req.body;
+
+    let hashedPassword = await bcrypt.hash(password, 8);
+
+    db.query('UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?', [name, email, hashedPassword, id], (error, results) => {
+        if (error) {
+            console.log(error); 
+            return res.end(JSON.stringify({ "message": error, "status": false }));
+        } else {
+            return res.end(JSON.stringify({ "message": "Usuário atualizado", "status": true }));
+        }
+    })
+};
