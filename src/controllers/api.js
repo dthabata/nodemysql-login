@@ -1,7 +1,6 @@
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { promisify } = require('util');
 
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
@@ -66,7 +65,8 @@ exports.registerApi = async (req, res) => {
 exports.updateApi = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
-    const {id, name, email, password } = req.body;
+    const { id } = req.params;
+    const { name, email, password } = req.body;
 
     let hashedPassword = await bcrypt.hash(password, 8);
 
@@ -79,3 +79,8 @@ exports.updateApi = async (req, res) => {
         }
     })
 };
+
+// exports.deleteApi = async (req, res) => {
+//     res.setHeader('Content-Type', 'application/json');
+//     const {id, name, email, password } = req.body;
+// };

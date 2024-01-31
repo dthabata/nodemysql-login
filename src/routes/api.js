@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.post('/login', apiController.loginApi);
 router.post('/register', apiController.registerApi);
-router.post('/update', apiController.updateApi);
-router.post('/delete', apiController.deleteApi);
+router.put('/update/:id', apiController.updateApi);
+// router.post('/delete', apiController.deleteApi);
 
 module.exports = router;
