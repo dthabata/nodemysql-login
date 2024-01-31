@@ -28,20 +28,15 @@ exports.getAnimalByIdApi = async (req, res) => {
 
     db.query('SELECT * FROM animal WHERE id = ?', [id], (error, results) => {
 
-        console.log(results);
-        let resp = {};
-
         if (error) {
             console.log(error);
         } 
         
+        let resp = {};
         if (results.length > 0) {
             resp = results[0];
-            return res.end(JSON.stringify(resp));
         }
         
-        else {
-            return res.end(JSON.stringify(results));
-        }
+        return res.end(JSON.stringify(resp));
     });
 };
