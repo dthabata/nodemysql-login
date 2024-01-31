@@ -80,7 +80,17 @@ exports.updateApi = async (req, res) => {
     })
 };
 
-// exports.deleteApi = async (req, res) => {
-//     res.setHeader('Content-Type', 'application/json');
-//     const {id, name, email, password } = req.body;
-// };
+exports.deleteApi = async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    const { id } = req.params;
+
+    db.query('DELETE FROM users WHERE id = ?', [id], (error, results) => {
+        if (error) {
+            console.log(error); 
+            return res.end(JSON.stringify({ "message": error, "status": false }));
+        } else {
+            return res.end(JSON.stringify({ "message": "Usuário deletado", "status": true }));
+        }
+    })
+};
