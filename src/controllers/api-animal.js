@@ -56,3 +56,18 @@ exports.updateAnimalApi = async (req, res) => {
         }
     })
 };
+
+exports.deleteAnimalByIdApi = async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    const { id } = req.params;
+
+    db.query('DELETE FROM animal WHERE id = ?', [id], (error, results) => {
+        if (error) {
+            console.log(error); 
+            return res.end(JSON.stringify({ "message": error, "status": false }));
+        } else {
+            return res.end(JSON.stringify({ "message": "Animal deletado", "status": true }));
+        }
+    })
+};
