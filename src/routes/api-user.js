@@ -6,6 +6,6 @@ const router = express.Router();
 router.post('/login', apiController.loginApi);
 router.post('/register', apiController.registerApi);
 router.put('/update/:id', authApiMiddleware.isLoggedIn, apiController.updateApi);
-router.delete('/delete/:id', apiController.deleteApi); // aqui
+router.delete('/delete/:id', authApiMiddleware.isLoggedIn, apiController.deleteApi);
 
 module.exports = router;
