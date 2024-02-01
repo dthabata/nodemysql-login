@@ -50,7 +50,7 @@ exports.registerApi = async (req, res) => {
             return res.end(JSON.stringify({ "message": "E-mail já em uso", "status": false }));
         } 
     
-        let hashedPassword = await bcrypt.hash(password, 8);
+        const hashedPassword = await bcrypt.hash(password, 8);
 
         db.query('INSERT INTO users SET ?', {name: name, email: email, password: hashedPassword}, (error, results) => {
             if (error) {
@@ -68,7 +68,7 @@ exports.updateApi = async (req, res) => {
     const { id } = req.params;
     const { name, email, password } = req.body;
 
-    let hashedPassword = await bcrypt.hash(password, 8);
+    const hashedPassword = await bcrypt.hash(password, 8);
 
     db.query('UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?', [name, email, hashedPassword, id], (error, results) => {
         if (error) {

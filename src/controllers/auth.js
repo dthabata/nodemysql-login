@@ -31,9 +31,6 @@ exports.login = async (req, res) => {
                     expiresIn: process.env.JWT_EXPIRES_IN
                 });
 
-                // shows the token 
-                console.log('The token is: ' + token);
-
                 const cookieOptions = {
                     expires: new Date(
                       Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
@@ -70,7 +67,7 @@ exports.register = (req, res) => {
             });
         }
 
-        let hashedPassword = await bcrypt.hash(password, 8);
+        const hashedPassword = await bcrypt.hash(password, 8);
 
         db.query('INSERT INTO users SET ?', {name: name, email: email, password: hashedPassword}, (error, results) => {
             if (error) {
@@ -92,8 +89,6 @@ exports.isLoggedIn = async (req, res, next) => {
             process.env.JWT_SECRET
             );
     
-            console.log(decoded);
-    
             // check if the user still exists
             db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (error, result) => {
             console.log(result);
@@ -103,10 +98,7 @@ exports.isLoggedIn = async (req, res, next) => {
             }
     
             req.user = result[0];
-            console.log("user is")
-            console.log(req.user);
             return next();
-    
             });
         } catch (error) {
             console.log(error);
