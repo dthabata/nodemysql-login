@@ -6,7 +6,7 @@ const router = express.Router();
 router.post('/create', authApiMiddleware.isLoggedIn, apiAnimalController.createAnimalApi);
 router.get('/getById/:id', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalByIdApi);
 router.put('/update/:id', authApiMiddleware.isLoggedIn, apiAnimalController.updateAnimalApi);
-router.delete('/delete/:id', apiAnimalController.deleteAnimalByIdApi); // aqui
+router.delete('/delete/:id', authApiMiddleware.isLoggedIn, apiAnimalController.deleteAnimalByIdApi);
 
 // TODO:
 // CRIAR UM METODO PARA LISTAR TODOS OS ANIMAIS DO BANCO DE DADOS SEM paginação
