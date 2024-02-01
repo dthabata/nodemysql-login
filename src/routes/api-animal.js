@@ -19,6 +19,6 @@ router.delete('/delete/:id', authApiMiddleware.isLoggedIn, apiAnimalController.d
 // [3, 5]
 // pagina = 3
 // [(pagina * 2) - 1, 6 + 2]
-// SELECT * FROM `animal` ORDER by id DESC limit 0, 3
+// SELECT * FROM `animal` ORDER BY id DESC limit 0, 3
 
 module.exports = router;
