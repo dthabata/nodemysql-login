@@ -16,7 +16,9 @@ exports.isLoggedIn = async (req, res, next) => {
     if (authorizationParam == undefined || authorizationParam.length == 0){
         return res.end(JSON.stringify({ "message": "Authorization inválido 1", "status": false }));
     }
+
     const authorization = authorizationParam.replaceAll('Bearer ', '');
+
     try {
         // verify the token
         const decoded = await promisify(jwt.verify)(authorization,
@@ -32,6 +34,7 @@ exports.isLoggedIn = async (req, res, next) => {
 
         req.user = result[0];
         return next();
+        
         });
     } catch (error) {
         console.log(error);
