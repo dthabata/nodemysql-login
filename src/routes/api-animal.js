@@ -4,7 +4,7 @@ const authApiMiddleware = require('../controllers/auth-api');
 const router = express.Router();
 
 router.post('/create', apiAnimalController.createAnimalApi); // aqui
-router.get('/get/:id', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalByIdApi);
+router.get('/getById/:id', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalByIdApi);
 router.put('/update/:id', apiAnimalController.updateAnimalApi); // aqui
 router.delete('/delete/:id', apiAnimalController.deleteAnimalByIdApi); // aqui
 
