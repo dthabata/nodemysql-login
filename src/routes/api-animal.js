@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/create', authApiMiddleware.isLoggedIn, apiAnimalController.createAnimalApi);
 router.get('/getById/:id', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalByIdApi);
-router.put('/update/:id', apiAnimalController.updateAnimalApi); // aqui
+router.put('/update/:id', authApiMiddleware.isLoggedIn, apiAnimalController.updateAnimalApi);
 router.delete('/delete/:id', apiAnimalController.deleteAnimalByIdApi); // aqui
 
 // TODO:
