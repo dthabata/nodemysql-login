@@ -26,7 +26,6 @@ exports.isLoggedIn = async (req, res, next) => {
 
         // check if the user still exists
         db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (error, result) => {
-        console.log(result);
 
         if (!result || error) {
             return next();
