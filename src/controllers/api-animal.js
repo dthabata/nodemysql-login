@@ -21,7 +21,7 @@ exports.createAnimalApi = async (req, res) => {
     });
 };
 
-exports.getAnimalApi = async (req, res) => {
+exports.getAnimalListApi = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     db.query('SELECT * FROM animal', (error, results) => {
@@ -29,10 +29,10 @@ exports.getAnimalApi = async (req, res) => {
         if (error) {
             console.log(error);
         } 
-        
-        let resp = {};
+
+        let resp = [];
         if (results.length > 0) {
-            resp = {...results};
+            resp = results;
         }
         
         return res.end(JSON.stringify(resp));
