@@ -39,6 +39,24 @@ exports.getAnimalListApi = async (req, res) => {
     });
 };
 
+exports.getAnimalPaginatedListApi = async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    db.query('SELECT * FROM animal ORDER BY id DESC limit 0, 2', (error, results) => {
+
+        if (error) {
+            console.log(error);
+        } 
+
+        let resp = [];
+        if (results.length > 0) {
+            resp = results;
+        }
+        
+        return res.end(JSON.stringify(resp));
+    });
+};
+
 exports.getAnimalByIdApi = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 

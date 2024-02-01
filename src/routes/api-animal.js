@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post('/create', authApiMiddleware.isLoggedIn, apiAnimalController.createAnimalApi);
 router.get('/getList', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalListApi);
+router.get('/getPaginatedList', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalPaginatedListApi);
 router.get('/getById/:id', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalByIdApi);
 router.put('/update/:id', authApiMiddleware.isLoggedIn, apiAnimalController.updateAnimalApi);
 router.delete('/delete/:id', authApiMiddleware.isLoggedIn, apiAnimalController.deleteAnimalByIdApi);
