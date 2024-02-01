@@ -3,7 +3,7 @@ const apiAnimalController = require('../controllers/api-animal');
 const authApiMiddleware = require('../controllers/auth-api');
 const router = express.Router();
 
-router.post('/create', apiAnimalController.createAnimalApi); // aqui
+router.post('/create', authApiMiddleware.isLoggedIn, apiAnimalController.createAnimalApi);
 router.get('/getById/:id', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalByIdApi);
 router.put('/update/:id', apiAnimalController.updateAnimalApi); // aqui
 router.delete('/delete/:id', apiAnimalController.deleteAnimalByIdApi); // aqui
