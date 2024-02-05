@@ -1,11 +1,15 @@
 const axios = require('axios');
 
-exports.getAxiosApi = async (req, res) => {
-    axios.get("http://localhost:5000/api-user/register")
+const newUser = {
+    name: 'Olivia',
+    email: 'olivia@email.com',
+    password: '1234',
+}
+
+axios.post("http://localhost:5000/api-user/register", newUser)
     .then((response) => {
-        console.log(response.data);
+        console.log(response);
     })
     .catch((error) => {
         console.log(error);
     })
-}
