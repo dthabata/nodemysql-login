@@ -44,6 +44,7 @@ app.use('/', require('./src/routes/pages'));
 app.use('/auth', require('./src/routes/auth'));
 app.use('/api-user', require('./src/routes/api-user'));
 app.use('/api-animal', require('./src/routes/api-animal'));
+app.use('/api-axios', require('./src/routes/api-axios'));
 
 app.listen(5000, () => {
     console.log('Server started on port 5000');
