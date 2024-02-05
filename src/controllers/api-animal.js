@@ -42,6 +42,7 @@ exports.getAnimalListApi = async (req, res) => {
 exports.getAnimalPaginatedListApi = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
+    // pagination
     const page = parseInt(req.query.page) || 0;
     const max = parseInt(req.query.max) || 1;
     const skip = page * max;
