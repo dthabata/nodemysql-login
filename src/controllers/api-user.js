@@ -37,6 +37,10 @@ exports.loginApi = async (req, res) => {
 
 exports.registerApi = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
+    
+    console.log("===== body:");
+    console.log(req.body);
+    console.log("===========");
 
     const { name, email, password } = req.body;
 
