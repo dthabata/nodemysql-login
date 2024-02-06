@@ -13,3 +13,6 @@ axios.post("http://localhost:5000/api-user/register", newUser)
     .catch((error) => {
         console.log(error);
     })
+    .finally((response) => {
+        console.log(response.data);
+    })
