@@ -20,7 +20,7 @@ exports.loginApi = async (req, res) => {
         } else {
         db.query('SELECT * FROM users where email = ?', [email], async (error, results) => {
             if (!results || results.length == 0 || !(await bcrypt.compare(password, results[0].password))) {               
-                res.end(JSON.stringify({ "message": "Não encontrou resultados", "status": false, "token": "" }));
+                res.status(401).send(JSON.stringify({ "message": "Não encontrou resultados", "status": false, "token": "" }));
             } else {
                 const id = results[0].id;
                 const token = jwt.sign({ id }, process.env.JWT_SECRET, {
