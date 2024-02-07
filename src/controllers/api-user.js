@@ -15,6 +15,10 @@ exports.loginApi = async (req, res) => {
     try {
         const { email, password } = req.body;
 
+        // console.log("===== body:");
+        // console.log(req.body);
+        // console.log("===========");
+
         if (!email || !password) {
             res.end(JSON.stringify({ "message": "Falta de email ou senha", "status": false, "token": "" }));
         } else {
@@ -38,9 +42,9 @@ exports.loginApi = async (req, res) => {
 exports.registerApi = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     
-    console.log("===== body:");
-    console.log(req.body);
-    console.log("===========");
+    // console.log("===== body:");
+    // console.log(req.body);
+    // console.log("===========");
 
     const { name, email, password } = req.body;
 
