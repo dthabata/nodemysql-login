@@ -12,6 +12,10 @@ exports.createAnimalApi = async (req, res) => {
 
     const { name, breed, age, color } = req.body;
 
+    console.log("===== body:");
+    console.log(req.body);
+    console.log("===========");
+
     db.query('INSERT INTO animal SET name = ?, breed = ?, age = ?, color = ?', [name, breed, age, color], (error, results) => {
         if (error) {
             console.log(error);
