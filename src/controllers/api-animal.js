@@ -87,6 +87,10 @@ exports.updateAnimalApi = async (req, res) => {
     const { id } = req.params;
     const { name, breed, age, color } = req.body;
 
+    // console.log("===== body:");
+    // console.log(req.body);
+    // console.log("===========");
+
     db.query('UPDATE animal SET name = ?, breed = ?, age = ?, color = ? WHERE id = ?', [name, breed, age, color, id], (error, results) => {
         if (error) {
             console.log(error); 
