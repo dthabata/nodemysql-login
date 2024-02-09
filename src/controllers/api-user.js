@@ -76,9 +76,9 @@ exports.updateApi = async (req, res) => {
     const { id } = req.params;
     const { name, email, password } = req.body;
 
-    console.log("===== body:");
-    console.log(req.body);
-    console.log("===========");
+    // console.log("===== body:");
+    // console.log(req.body);
+    // console.log("===========");
 
     const hashedPassword = await bcrypt.hash(password, 8);
 
