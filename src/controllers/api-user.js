@@ -30,7 +30,7 @@ exports.loginApi = async (req, res) => {
                 const token = jwt.sign({ id }, process.env.JWT_SECRET, {
                     expiresIn: process.env.JWT_EXPIRES_IN
                 });
-                res.end(JSON.stringify({ "message": "Ok", "status": false, "token": token }));
+                res.end(JSON.stringify({ "message": "Ok", "status": true, "token": token }));
             }
         });
         }

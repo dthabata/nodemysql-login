@@ -3,6 +3,7 @@ const path = require('path');
 const mysql = require('mysql');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
+let cors = require('cors');
 
 dotenv.config({
     path: './.env'
@@ -40,6 +41,7 @@ db.connect((error) => {
 });
 
 // define routes
+app.use(cors());
 app.use('/', require('./src/routes/pages'));
 app.use('/auth', require('./src/routes/auth'));
 app.use('/api-user', require('./src/routes/api-user'));
