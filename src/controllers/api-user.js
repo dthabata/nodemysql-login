@@ -23,14 +23,15 @@ exports.loginApi = async (req, res) => {
             res.end(JSON.stringify({ "message": "Falta de email ou senha", "status": false, "token": "" }));
         } else {
         db.query('SELECT * FROM users where email = ?', [email], async (error, results) => {
-            if (!results || results.length == 0 || !(await bcrypt.compare(password, results[0].password))) {               
+            if (!results || results.length == 0 || !(await bcrypt.compare(password, results[0].password))) {
                 res.status(401).send(JSON.stringify({ "message": "Não encontrou resultados", "status": false, "token": "" }));
             } else {
                 const id = results[0].id;
+                const name = results[0].name;
                 const token = jwt.sign({ id }, process.env.JWT_SECRET, {
                     expiresIn: process.env.JWT_EXPIRES_IN
                 });
-                res.end(JSON.stringify({ "message": "Ok", "status": true, "token": token }));
+                res.end(JSON.stringify({ "message": "Ok", "status": true, "token": token, "name": name  }));
             }
         });
         }
