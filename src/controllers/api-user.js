@@ -65,7 +65,7 @@ exports.registerApi = async (req, res) => {
             if (error) {
                 console.log(error);
             } else {
-                return res.end(JSON.stringify({ "message": "Usuário cadastrado", "status": false }));
+                return res.end(JSON.stringify({ "message": "Usuário cadastrado", "status": true }));
             }
         })
     });
