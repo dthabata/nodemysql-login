@@ -84,12 +84,10 @@ exports.register = (req, res) => {
 exports.isLoggedIn = async (req, res, next) => {
     if (req.cookies.jwt) {
         try {
-            // verify the token
             const decoded = await promisify(jwt.verify)(req.cookies.jwt,
             process.env.JWT_SECRET
             );
     
-            // check if the user still exists
             db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (error, result) => {
             console.log(result);
     
@@ -109,7 +107,7 @@ exports.isLoggedIn = async (req, res, next) => {
     }
 };
 
-exports.logout = async (req, res) => {
+exports.logout = (req, res) => {
     res.cookie('jwt', 'logout', {
         expires: new Date(Date.now() + 2 * 1000),
         httpOnly: true,
