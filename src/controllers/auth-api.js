@@ -20,12 +20,10 @@ exports.isLoggedIn = async (req, res, next) => {
     const authorization = authorizationParam.replaceAll('Bearer ', '');
 
     try {
-        // verify the token
         const decoded = await promisify(jwt.verify)(authorization,
             process.env.JWT_SECRET
         );
 
-        // check if the user still exists
         db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (error, result) => {
 
         if (!result || error) {
