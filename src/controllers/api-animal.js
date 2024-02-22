@@ -7,14 +7,10 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 });
 
-exports.createAnimalApi = async (req, res) => {
+exports.createAnimalApi = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     const { name, breed, age, color } = req.body;
-
-    // console.log("===== body:");
-    // console.log(req.body);
-    // console.log("===========");
 
     db.query('INSERT INTO animal SET name = ?, breed = ?, age = ?, color = ?', [name, breed, age, color], (error, results) => {
         if (error) {
@@ -25,7 +21,7 @@ exports.createAnimalApi = async (req, res) => {
     });
 };
 
-exports.getAnimalListApi = async (req, res) => {
+exports.getAnimalListApi = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     db.query('SELECT * FROM animal', (error, results) => {
@@ -43,7 +39,7 @@ exports.getAnimalListApi = async (req, res) => {
     });
 };
 
-exports.getAnimalPaginatedListApi = async (req, res) => {
+exports.getAnimalPaginatedListApi = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     // pagination
@@ -61,7 +57,7 @@ exports.getAnimalPaginatedListApi = async (req, res) => {
     });
 };
 
-exports.getAnimalByIdApi = async (req, res) => {
+exports.getAnimalByIdApi = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     const { id } = req.params;
@@ -81,15 +77,11 @@ exports.getAnimalByIdApi = async (req, res) => {
     });
 };
 
-exports.updateAnimalApi = async (req, res) => {
+exports.updateAnimalApi = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     const { id } = req.params;
     const { name, breed, age, color } = req.body;
-
-    // console.log("===== body:");
-    // console.log(req.body);
-    // console.log("===========");
 
     db.query('UPDATE animal SET name = ?, breed = ?, age = ?, color = ? WHERE id = ?', [name, breed, age, color, id], (error, results) => {
         if (error) {
@@ -101,7 +93,7 @@ exports.updateAnimalApi = async (req, res) => {
     })
 };
 
-exports.deleteAnimalByIdApi = async (req, res) => {
+exports.deleteAnimalByIdApi = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     const { id } = req.params;
