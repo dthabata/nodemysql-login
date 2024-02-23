@@ -9,7 +9,7 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 });
 
-exports.loginApi = async (req, res) => {
+exports.loginApi = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     
     try {
@@ -18,9 +18,20 @@ exports.loginApi = async (req, res) => {
         if (!email || !password) {
             res.end(JSON.stringify({ "message": "Falta de email ou senha", "status": false, "token": "" }));
         } else {
-        db.query('SELECT * FROM users where email = ?', [email], async (error, results) => {
-            if (!results || results.length == 0 || !(await bcrypt.compare(password, results[0].password))) {
+        db.query('SELECT * FROM users where email = ?', [email], (error, results) => {
+            
+            const comparePasswords = () => {
+                bcrypt.compare((password, results[0].password), (err, result) => {
+                    if (err || !result) {
+                        return false;
+                    }
+                    return true;
+                });   
+            }
+
+            if (!results || results.length == 0 || !comparePasswords) {
                 res.status(401).send(JSON.stringify({ "message": "Não encontrou resultados", "status": false, "token": "" }));
+                console.log(error);
             } else {
                 const id = results[0].id;
                 const name = results[0].name;
