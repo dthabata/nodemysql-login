@@ -85,27 +85,36 @@ exports.register = (req, res) => {
     });
 };
 
-exports.isLoggedIn = async (req, res, next) => {
+// JsonWebTokenError: jwt malformed
+// TODO: return to async/await
+exports.isLoggedIn = (req, res, next) => {
     if (req.cookies.jwt) {
-        try {
-            const decoded = await promisify(jwt.verify)(req.cookies.jwt,
-            process.env.JWT_SECRET
-            );
-    
-            db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (error, result) => {
-            console.log(result);
-    
-            if (!result || error) {
+        promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET)
+            .then(decoded => {
+                return new Promise((resolve, reject) => {
+                    db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (error, result) => {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(result);
+                        }
+                    });
+                });
+            })
+            .then(result => {
+                console.log(result);
+
+                if (!result) {
+                    return next();
+                }
+
+                req.user = result[0];
                 return next();
-            }
-    
-            req.user = result[0];
-            return next();
+            })
+            .catch(error => {
+                console.log(error);
+                return next();
             });
-        } catch (error) {
-            console.log(error);
-            return next();
-        }
     } else {
         next();
     }
