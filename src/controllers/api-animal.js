@@ -13,6 +13,8 @@ exports.createAnimalApi = (req, res) => {
     const { name, breed, age, color } = req.body;
 
     db.query('INSERT INTO animal SET name = ?, breed = ?, age = ?, color = ?', [name, breed, age, color], (error, results) => {
+        console.log(results);
+
         if (error) {
             console.log(error);
         } else {
@@ -22,6 +24,7 @@ exports.createAnimalApi = (req, res) => {
 };
 
 exports.getAnimalListApi = (req, res) => {
+    console.log(req);
     res.setHeader('Content-Type', 'application/json');
 
     db.query('SELECT * FROM animal', (error, results) => {
@@ -42,7 +45,6 @@ exports.getAnimalListApi = (req, res) => {
 exports.getAnimalPaginatedListApi = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
-    // pagination
     const page = parseInt(req.query.page) || 0;
     const max = parseInt(req.query.max) || 1;
     const skip = page * max;
@@ -84,6 +86,8 @@ exports.updateAnimalApi = (req, res) => {
     const { name, breed, age, color } = req.body;
 
     db.query('UPDATE animal SET name = ?, breed = ?, age = ?, color = ? WHERE id = ?', [name, breed, age, color, id], (error, results) => {
+        console.log(results);
+
         if (error) {
             console.log(error); 
             return res.end(JSON.stringify({ "message": error, "status": false }));
@@ -99,6 +103,8 @@ exports.deleteAnimalByIdApi = (req, res) => {
     const { id } = req.params;
 
     db.query('DELETE FROM animal WHERE id = ?', [id], (error, results) => {
+        console.log(results);
+
         if (error) {
             console.log(error); 
             return res.end(JSON.stringify({ "message": error, "status": false }));
