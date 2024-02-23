@@ -19,24 +19,19 @@ exports.isLoggedIn = async (req, res, next) => {
 
     const authorization = authorizationParam.replaceAll('Bearer ', '');
 
-    try {
-        const decoded = await promisify(jwt.verify)(authorization,
-            process.env.JWT_SECRET
-        );
+    const decoded = promisify(jwt.verify)(authorization, process.env.JWT_SECRET)
+        .then(
+            db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (error, result) => {
 
-        db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (error, result) => {
-
-        if (!result || error) {
-            return next();
-        }
-
-        req.user = result[0];
-        return next();
+                if (!result || error) {
+                    return next();
+                }
         
-        });
-    } catch (error) {
-        console.log(error);
-        return res.end(JSON.stringify({ "message": "Authorization inválido 2", "status": false }));
-    }
-    
+                req.user = result[0];
+                return next();
+                
+            })
+        )
+        .catch(res.end(JSON.stringify({ "message": "Authorization inválido 2", "status": false }))
+        );
 };
