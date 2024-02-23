@@ -47,12 +47,12 @@ exports.loginApi = (req, res) => {
     }
 };
 
-exports.registerApi = async (req, res) => {
+exports.registerApi = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     const { name, email, password } = req.body;
 
-    db.query('SELECT email FROM users WHERE email = ?', [email], async (error, results) => {
+    db.query('SELECT email FROM users WHERE email = ?', [email], (error, results) => {
         
         if (error) {
             console.log(error);
@@ -62,9 +62,18 @@ exports.registerApi = async (req, res) => {
             return res.end(JSON.stringify({ "message": "E-mail já em uso", "status": false }));
         } 
     
-        const hashedPassword = await bcrypt.hash(password, 8);
+        const hashedPassword = () => {
+            bcrypt.hash((password, 8), (err, result) => {
+                if (err || !result) {
+                    return false;
+                }
+                return true;
+            });   
+        }
 
         db.query('INSERT INTO users SET ?', {name: name, email: email, password: hashedPassword}, (error, results) => {
+            console.log(results);
+
             if (error) {
                 console.log(error);
             } else {
