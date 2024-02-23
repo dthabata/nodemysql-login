@@ -107,6 +107,8 @@ exports.deleteApi = (req, res) => {
     const { id } = req.params;
 
     db.query('DELETE FROM users WHERE id = ?', [id], (error, results) => {
+        console.log(results);
+        
         if (error) {
             console.log(error); 
             return res.end(JSON.stringify({ "message": error, "status": false }));
