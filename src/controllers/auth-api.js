@@ -9,8 +9,7 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 });
 
-exports.isLoggedIn = async (req, res, next) => {
-    
+exports.isLoggedIn = (req, res, next) => {
     authorizationParam = req.header("Authorization")
 
     if (authorizationParam == undefined || authorizationParam.length == 0){
@@ -19,24 +18,19 @@ exports.isLoggedIn = async (req, res, next) => {
 
     const authorization = authorizationParam.replaceAll('Bearer ', '');
 
-    try {
-        const decoded = await promisify(jwt.verify)(authorization,
-            process.env.JWT_SECRET
-        );
+    promisify(jwt.verify)(authorization, process.env.JWT_SECRET)
+        .then(decoded => {
+            db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (error, result) => {
+                if (!result || error) {
+                    return next();
+                }
 
-        db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (error, result) => {
-
-        if (!result || error) {
-            return next();
-        }
-
-        req.user = result[0];
-        return next();
-        
+                req.user = result[0];
+                return next();
+            });
+        })
+        .catch(error => {
+            console.log(error);
+            return res.end(JSON.stringify({ "message": "Authorization inválido 2", "status": false }));
         });
-    } catch (error) {
-        console.log(error);
-        return res.end(JSON.stringify({ "message": "Authorization inválido 2", "status": false }));
-    }
-    
 };
