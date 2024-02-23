@@ -14,6 +14,7 @@ exports.loginApi = (req, res) => {
 
     try {
         const { email, password } = req.body;
+        
         if (!email || !password) {
             res.end(JSON.stringify({ "message": "Falta de email ou senha", "status": false, "token": "" }));
         } else {
