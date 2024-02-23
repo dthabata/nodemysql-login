@@ -10,7 +10,7 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 });
 
-exports.login = async (req, res) => {
+exports.login = (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
@@ -18,9 +18,17 @@ exports.login = async (req, res) => {
                 message: 'Please provide a valid email and password'
             });
         }
-        db.query('SELECT * FROM users where email = ?', [email], async (error, results) => {
-            if (!results || !(await bcrypt.compare(password, results[0].password))) {
-                // res.end(JSON.stringify({ "message": "Email or password is incorrect", "status": false, "token": "" }));
+        db.query('SELECT * FROM users where email = ?', [email], (error, results) => {
+            const comparePasswords = () => {
+                bcrypt.compare((password, results[0].password), (err, result) => {
+                    if (err || !result) {
+                        return false;
+                    }
+                    return true;
+                });   
+            }
+
+            if (!results || !comparePasswords) {
                 
                 res.status(401).render('login', {
                     message: 'Email or password is incorrect'

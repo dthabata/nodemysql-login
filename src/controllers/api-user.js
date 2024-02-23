@@ -31,7 +31,6 @@ exports.loginApi = (req, res) => {
 
             if (!results || results.length == 0 || !comparePasswords) {
                 res.status(401).send(JSON.stringify({ "message": "Não encontrou resultados", "status": false, "token": "" }));
-                console.log(error);
             } else {
                 const id = results[0].id;
                 const name = results[0].name;
@@ -52,8 +51,7 @@ exports.registerApi = (req, res) => {
 
     const { name, email, password } = req.body;
 
-    db.query('SELECT email FROM users WHERE email = ?', [email], (error, results) => {
-        
+    db.query('SELECT email FROM users WHERE email = ?', [email], (error, results) => {    
         if (error) {
             console.log(error);
         }
@@ -72,8 +70,6 @@ exports.registerApi = (req, res) => {
         }
 
         db.query('INSERT INTO users SET ?', {name: name, email: email, password: hashedPassword}, (error, results) => {
-            console.log(results);
-
             if (error) {
                 console.log(error);
             } else {
@@ -93,7 +89,6 @@ exports.updateApi = async (req, res) => {
 
     db.query('UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?', [name, email, hashedPassword, id], (error, results) => {
         if (error) {
-            console.log(error); 
             return res.end(JSON.stringify({ "message": error, "status": false }));
         } else {
             return res.end(JSON.stringify({ "message": "Usuário atualizado", "status": true }));
@@ -107,10 +102,7 @@ exports.deleteApi = (req, res) => {
     const { id } = req.params;
 
     db.query('DELETE FROM users WHERE id = ?', [id], (error, results) => {
-        console.log(results);
-        
         if (error) {
-            console.log(error); 
             return res.end(JSON.stringify({ "message": error, "status": false }));
         } else {
             return res.end(JSON.stringify({ "message": "Usuário deletado", "status": true }));
