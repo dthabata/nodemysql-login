@@ -51,7 +51,7 @@ exports.registerApi = (req, res) => {
 
     const { name, email, password } = req.body;
 
-    db.query('SELECT email FROM users WHERE email = ?', [email], (error, results) => {    
+    db.query('SELECT email FROM users WHERE email = ?', [email], async (error, results) => {    
         if (error) {
             console.log(error);
         }
@@ -60,14 +60,7 @@ exports.registerApi = (req, res) => {
             return res.end(JSON.stringify({ "message": "E-mail já em uso", "status": false }));
         } 
     
-        const hashedPassword = () => {
-            bcrypt.hash((password, 8), (err, result) => {
-                if (err || !result) {
-                    return false;
-                }
-                return true;
-            });   
-        }
+        const hashedPassword = await bcrypt.hash(password, 8);
 
         db.query('INSERT INTO users SET ?', {name: name, email: email, password: hashedPassword}, (error, results) => {
             if (error) {
