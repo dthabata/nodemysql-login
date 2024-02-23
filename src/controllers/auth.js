@@ -26,7 +26,7 @@ exports.login = (req, res) => {
             } else {
                 bcrypt.compare(password, results[0].password, (err, result) => {
                     if (err || !result) {
-                        res.status(401).send(JSON.stringify({ "message": "Não encontrou resultados", "status": false, "token": "" }));
+                        res.status(401).send(JSON.stringify({ "message": "Couldn't find results", "status": false, "token": "" }));
                     } else {
                         const id = results[0].id;
                         const token = jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -54,7 +54,7 @@ exports.login = (req, res) => {
 exports.register = (req, res) => {
     const { name, email, password, passwordConfirm } = req.body;
 
-    db.query('SELECT email FROM users WHERE email = ?', [email], async (error, results) => {
+    db.query('SELECT email FROM users WHERE email = ?', [email], (error, results) => {
         if (error) {
             console.log(error);
         }
@@ -71,16 +71,16 @@ exports.register = (req, res) => {
             });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 8);
-
-        db.query('INSERT INTO users SET ?', {name: name, email: email, password: hashedPassword}, (error, results) => {
-            if (error) {
-                console.log(error);
-            } else {
-                return res.render('register', {
-                    message: 'User registered'
-                });
-            }
+        bcrypt.hash(password, 8, (err, hashedPassword) => {
+            db.query('INSERT INTO users SET ?', {name: name, email: email, password: hashedPassword}, (error, results) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    return res.render('register', {
+                        message: 'User registered'
+                    });
+                }
+            });
         });
     });
 };
