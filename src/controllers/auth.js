@@ -19,35 +19,31 @@ exports.login = (req, res) => {
             });
         }
         db.query('SELECT * FROM users where email = ?', [email], (error, results) => {
-            const comparePasswords = () => {
-                bcrypt.compare((password, results[0].password), (err, result) => {
-                    if (err || !result) {
-                        return false;
-                    }
-                    return true;
-                });   
-            }
-
-            if (!results || !comparePasswords) {
-                
+            if (!results || results.length == 0) {
                 res.status(401).render('login', {
                     message: 'Email or password is incorrect'
                 });
             } else {
-                const id = results[0].id;
-                const token = jwt.sign({ id }, process.env.JWT_SECRET, {
-                    expiresIn: process.env.JWT_EXPIRES_IN
+                bcrypt.compare(password, results[0].password, (err, result) => {
+                    if (err || !result) {
+                        res.status(401).send(JSON.stringify({ "message": "Não encontrou resultados", "status": false, "token": "" }));
+                    } else {
+                        const id = results[0].id;
+                        const token = jwt.sign({ id }, process.env.JWT_SECRET, {
+                            expiresIn: process.env.JWT_EXPIRES_IN
+                        });
+        
+                        const cookieOptions = {
+                            expires: new Date(
+                              Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+                            ),
+                            httpOnly: true
+                        }
+        
+                        res.cookie('jwt', token, cookieOptions);
+                        res.status(200).redirect('/');
+                    }    
                 });
-
-                const cookieOptions = {
-                    expires: new Date(
-                      Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-                    ),
-                    httpOnly: true
-                }
-
-                res.cookie('jwt', token, cookieOptions);
-                res.status(200).redirect('/');
                 }
             });
     } catch (error) {
