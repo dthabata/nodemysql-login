@@ -14,7 +14,7 @@ exports.loginApi = (req, res) => {
 
     try {
         const { email, password } = req.body;
-        
+
         if (!email || !password) {
             res.end(JSON.stringify({ "message": "Falta de email ou senha", "status": false, "token": "" }));
         } else {
@@ -68,21 +68,21 @@ exports.registerApi = (req, res) => {
     });
 };
 
-exports.updateApi = async (req, res) => {
+exports.updateApi = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     const { id } = req.params;
     const { name, email, password } = req.body;
 
-    const hashedPassword = await bcrypt.hash(password, 8);
-
-    db.query('UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?', [name, email, hashedPassword, id], (error, results) => {
-        if (error) {
-            return res.end(JSON.stringify({ "message": error, "status": false }));
-        } else {
-            return res.end(JSON.stringify({ "message": "Usuário atualizado", "status": true }));
-        }
-    })
+    bcrypt.hash(password, 8, (err, hashedPassword) => {
+        db.query('UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?', [name, email, hashedPassword, id], (error, results) => {
+            if (error) {
+                return res.end(JSON.stringify({ "message": error, "status": false }));
+            } else {
+                return res.end(JSON.stringify({ "message": "Usuário atualizado", "status": true }));
+            }
+        })
+    });
 };
 
 exports.deleteApi = (req, res) => {
