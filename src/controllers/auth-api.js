@@ -9,6 +9,8 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 });
 
+// TODO: return to async/await in the whole code where is needed as an improvement
+
 exports.isLoggedIn = (req, res, next) => {
     authorizationParam = req.header("Authorization")
 

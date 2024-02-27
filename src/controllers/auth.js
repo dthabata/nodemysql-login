@@ -10,6 +10,8 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 });
 
+// TODO: return to async/await in the whole code where is needed as an improvement
+
 exports.login = (req, res) => {
     try {
         const { email, password } = req.body;
@@ -85,8 +87,6 @@ exports.register = (req, res) => {
     });
 };
 
-// JsonWebTokenError: jwt malformed
-// TODO: return to async/await in the whole code where is needed as an improvement
 exports.isLoggedIn = (req, res, next) => {
     if (req.cookies.jwt) {
         promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET)
