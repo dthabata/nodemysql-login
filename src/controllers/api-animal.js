@@ -93,6 +93,23 @@ exports.getAnimalPaginatedListApi = (req, res) => {
     });
 };
 
+exports.getAnimalPaginatedListApiSync = async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    const page = parseInt(req.query.page) || 0;
+    const max = parseInt(req.query.max) || 1;
+    const skip = page * max;
+
+    await db.query('SELECT * FROM animal ORDER BY id DESC limit ?, ?', [skip, max], (error, results) => {
+
+        if (error) {
+            console.log(error);
+            return res.end(JSON.stringify([]));
+        } 
+        return res.end(JSON.stringify(results));
+    });
+};
+
 exports.getAnimalByIdApi = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 

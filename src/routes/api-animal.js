@@ -8,6 +8,7 @@ router.post('/createSync', authApiMiddleware.isLoggedIn, apiAnimalController.cre
 router.get('/getList', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalListApi);
 router.get('/getListSync', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalListApiSync);
 router.get('/getPaginatedList', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalPaginatedListApi);
+router.get('/getPaginatedListSync', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalPaginatedListApiSync);
 router.get('/getById/:id', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalByIdApi);
 router.put('/update/:id', authApiMiddleware.isLoggedIn, apiAnimalController.updateAnimalApi);
 router.delete('/delete/:id', authApiMiddleware.isLoggedIn, apiAnimalController.deleteAnimalByIdApi);
