@@ -23,6 +23,25 @@ exports.createAnimalApi = (req, res) => {
     });
 };
 
+exports.createAnimalApiSync = async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    
+    try {
+        const { name, breed, age, color } = req.body;
+        db.query('INSERT INTO animal SET name = ?, breed = ?, age = ?, color = ?', [name, breed, age, color], (error, results) => {
+            console.log(results);
+    
+            if (error) {
+                console.log(error);
+            } else {
+                return res.end(JSON.stringify({ "message": "Animal cadastrado", "status": false }));
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 exports.getAnimalListApi = (req, res) => {
     console.log(req);
     res.setHeader('Content-Type', 'application/json');
