@@ -13,8 +13,6 @@ exports.createAnimalApi = (req, res) => {
     const { name, breed, age, color } = req.body;
 
     db.query('INSERT INTO animal SET name = ?, breed = ?, age = ?, color = ?', [name, breed, age, color], (error, results) => {
-        console.log(results);
-
         if (error) {
             console.log(error);
         } else {
@@ -28,7 +26,7 @@ exports.createAnimalApiSync = async (req, res) => {
     
     try {
         const { name, breed, age, color } = req.body;
-        db.query('INSERT INTO animal SET name = ?, breed = ?, age = ?, color = ?', [name, breed, age, color], (error, results) => {
+        await db.query('INSERT INTO animal SET name = ?, breed = ?, age = ?, color = ?', [name, breed, age, color], (error, results) => {
             console.log(results);
     
             if (error) {
@@ -43,10 +41,27 @@ exports.createAnimalApiSync = async (req, res) => {
 };
 
 exports.getAnimalListApi = (req, res) => {
-    console.log(req);
     res.setHeader('Content-Type', 'application/json');
 
     db.query('SELECT * FROM animal', (error, results) => {
+
+        if (error) {
+            console.log(error);
+        } 
+
+        let resp = [];
+        if (results.length > 0) {
+            resp = results;
+        }
+        
+        return res.end(JSON.stringify(resp));
+    });
+};
+
+exports.getAnimalListApiSync = async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    await db.query('SELECT * FROM animal', (error, results) => {
 
         if (error) {
             console.log(error);

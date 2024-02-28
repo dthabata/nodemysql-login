@@ -6,6 +6,7 @@ const router = express.Router();
 router.post('/create', authApiMiddleware.isLoggedIn, apiAnimalController.createAnimalApi);
 router.post('/createSync', authApiMiddleware.isLoggedIn, apiAnimalController.createAnimalApiSync);
 router.get('/getList', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalListApi);
+router.get('/getListSync', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalListApiSync);
 router.get('/getPaginatedList', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalPaginatedListApi);
 router.get('/getById/:id', authApiMiddleware.isLoggedIn, apiAnimalController.getAnimalByIdApi);
 router.put('/update/:id', authApiMiddleware.isLoggedIn, apiAnimalController.updateAnimalApi);
