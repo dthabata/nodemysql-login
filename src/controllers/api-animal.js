@@ -130,6 +130,26 @@ exports.getAnimalByIdApi = (req, res) => {
     });
 };
 
+exports.getAnimalByIdApiSync = async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    const { id } = req.params;
+
+    await db.query('SELECT * FROM animal WHERE id = ?', [id], (error, results) => {
+
+        if (error) {
+            console.log(error);
+        } 
+        
+        let resp = {};
+        if (results.length > 0) {
+            resp = results[0];
+        }
+        
+        return res.end(JSON.stringify(resp));
+    });
+};
+
 exports.updateAnimalApi = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
@@ -137,7 +157,23 @@ exports.updateAnimalApi = (req, res) => {
     const { name, breed, age, color } = req.body;
 
     db.query('UPDATE animal SET name = ?, breed = ?, age = ?, color = ? WHERE id = ?', [name, breed, age, color, id], (error, results) => {
-        console.log(results);
+
+        if (error) {
+            console.log(error); 
+            return res.end(JSON.stringify({ "message": error, "status": false }));
+        } else {
+            return res.end(JSON.stringify({ "message": "Animal atualizado", "status": true }));
+        }
+    })
+};
+
+exports.updateAnimalApiSync = async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    const { id } = req.params;
+    const { name, breed, age, color } = req.body;
+
+    await db.query('UPDATE animal SET name = ?, breed = ?, age = ?, color = ? WHERE id = ?', [name, breed, age, color, id], (error, results) => {
 
         if (error) {
             console.log(error); 
