@@ -10,7 +10,6 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 });
 
-
 exports.loginApi = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
@@ -45,7 +44,8 @@ exports.loginApi = (req, res) => {
 };
 
 exports.loginApiSync = async (req, res) => {
-
+    res.setHeader('Content-Type', 'application/json');
+    
     const { email, password } = req.body;
 
     if (!email || !password) {
