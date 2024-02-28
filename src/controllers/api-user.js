@@ -10,8 +10,6 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 });
 
-// TODO: return to async/await in the whole code where is needed as an improvement
-
 exports.loginApi = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
