@@ -9,54 +9,54 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 });
 
-// exports.isLoggedIn = (req, res, next) => {
-//     authorizationParam = req.header("Authorization")
+exports.isLoggedIn = (req, res, next) => {
+    authorizationParam = req.header("Authorization")
 
-//     if (authorizationParam == undefined || authorizationParam.length == 0){
-//         return res.end(JSON.stringify({ "message": "Authorization inválido 1", "status": false }));
-//     }
-
-//     const authorization = authorizationParam.replaceAll('Bearer ', '');
-
-//     promisify(jwt.verify)(authorization, process.env.JWT_SECRET)
-//         .then(decoded => {
-//             db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (error, result) => {
-//                 if (!result || error) {
-//                     return next();
-//                 }
-
-//                 req.user = result[0];
-//                 return next();
-//             });
-//         })
-//         .catch(error => {
-//             console.log(error);
-//             return res.end(JSON.stringify({ "message": "Authorization inválido 2", "status": false }));
-//         });
-// };
-
-exports.isLoggedIn = async (req, res, next) => {
-    try {
-        const authorizationParam = req.header("Authorization");
-
-        if (!authorizationParam || authorizationParam.length === 0) {
-            return res.end(JSON.stringify({ "message": "Authorization inválido 1", "status": false }));
-        }
-
-        const authorization = authorizationParam.replace('Bearer ', '');
-
-        const decoded = await promisify(jwt.verify)(authorization, process.env.JWT_SECRET);
-
-        const [result] = await db.query('SELECT * FROM users WHERE id = ?', [decoded.id]);
-
-        if (!result) {
-            return next();
-        }
-
-        req.user = result[0];
-        return next();
-    } catch (error) {
-        console.log(error);
-        return res.end(JSON.stringify({ "message": "Authorization inválido 2", "status": false }));
+    if (authorizationParam == undefined || authorizationParam.length == 0){
+        return res.end(JSON.stringify({ "message": "Authorization inválido 1", "status": false }));
     }
+
+    const authorization = authorizationParam.replaceAll('Bearer ', '');
+
+    promisify(jwt.verify)(authorization, process.env.JWT_SECRET)
+        .then(decoded => {
+            db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (error, result) => {
+                if (!result || error) {
+                    return next();
+                }
+
+                req.user = result[0];
+                return next();
+            });
+        })
+        .catch(error => {
+            console.log(error);
+            return res.end(JSON.stringify({ "message": "Authorization inválido 2", "status": false }));
+        });
 };
+
+// exports.isLoggedIn = async (req, res, next) => {
+//     try {
+//         const authorizationParam = req.header("Authorization");
+
+//         if (!authorizationParam || authorizationParam.length === 0 || !authorizationParam.startsWith('Bearer ')) {
+//             return res.end(JSON.stringify({ "message": "Invalid Authorization header", "status": false }));
+//         }
+
+//         const token = authorizationParam.replace('Bearer ', '');
+
+//         const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+//         const [result] = await db.query('SELECT * FROM users WHERE id = ?', [decoded.id]);
+
+//         if (!result) {
+//             return next();
+//         }
+
+//         req.user = result[0];
+//         return next();
+//     } catch (error) {
+//         console.log(error);
+//         return res.end(JSON.stringify({ "message": "Invalid token or Authorization header", "status": false }));
+//     }
+// };
