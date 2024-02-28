@@ -1,6 +1,7 @@
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const util = require('util');
 
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
@@ -138,6 +139,25 @@ exports.updateApi = (req, res) => {
             }
         })
     });
+};
+
+const hashAsync = util.promisify(bcrypt.hash);
+
+exports.updateApiSync = async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    const { id } = req.params;
+    const { name, email, password } = req.body;
+
+    try {
+        const hashedPassword = await hashAsync(password, 8);
+
+        const results = await db.query('UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?', [name, email, hashedPassword, id]);
+
+        res.end(JSON.stringify({ "message": "Usuário atualizado", "status": true }));
+    } catch (error) {
+        res.end(JSON.stringify({ "message": error, "status": false }));
+    }
 };
 
 exports.deleteApi = (req, res) => {
