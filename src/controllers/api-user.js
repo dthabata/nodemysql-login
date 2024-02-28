@@ -96,6 +96,33 @@ exports.registerApi = (req, res) => {
     });
 };
 
+exports.registerApiSync = async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    const { name, email, password } = req.body;
+
+    db.query('SELECT email FROM users WHERE email = ?', [email], async (error, results) => {
+        
+        if (error) {
+            console.log(error);
+        }
+
+        if (results.length > 0) {
+            return res.end(JSON.stringify({ "message": "E-mail já em uso", "status": false }));
+        } 
+    
+        const hashedPassword = await bcrypt.hash(password, 8);
+
+        db.query('INSERT INTO users SET ?', {name: name, email: email, password: hashedPassword}, (error, results) => {
+            if (error) {
+                console.log(error);
+            } else {
+                return res.end(JSON.stringify({ "message": "Usuário cadastrado", "status": false }));
+            }
+        })
+    });
+};
+
 exports.updateApi = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
