@@ -153,3 +153,17 @@ exports.deleteApi = (req, res) => {
         }
     })
 };
+
+exports.deleteApiSync = async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    try {
+        const { id } = req.params;
+
+        const results = await db.query('DELETE FROM users WHERE id = ?', [id]);
+
+        res.end(JSON.stringify({ "message": "Usuário deletado", "status": true }));
+    } catch (error) {
+        res.end(JSON.stringify({ "message": error, "status": false }));
+    }
+};

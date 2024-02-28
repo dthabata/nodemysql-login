@@ -9,5 +9,6 @@ router.post('/register', apiController.registerApi);
 router.post('/registerSync', apiController.registerApiSync);
 router.put('/update/:id', authApiMiddleware.isLoggedIn, apiController.updateApi);
 router.delete('/delete/:id', authApiMiddleware.isLoggedIn, apiController.deleteApi);
+router.delete('/deleteSync/:id', authApiMiddleware.isLoggedIn, apiController.deleteApiSync);
 
 module.exports = router;
