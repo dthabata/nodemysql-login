@@ -26,8 +26,7 @@ exports.createAnimalApiSync = async (req, res) => {
     
     try {
         const { name, breed, age, color } = req.body;
-        await db.query('INSERT INTO animal SET name = ?, breed = ?, age = ?, color = ?', [name, breed, age, color], (error, results) => {
-            console.log(results);
+        const result = await db.query('INSERT INTO animal SET name = ?, breed = ?, age = ?, color = ?', [name, breed, age, color], (error, results) => {
     
             if (error) {
                 console.log(error);
@@ -61,7 +60,7 @@ exports.getAnimalListApi = (req, res) => {
 exports.getAnimalListApiSync = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
-    await db.query('SELECT * FROM animal', (error, results) => {
+    const result = await db.query('SELECT * FROM animal', (error, results) => {
 
         if (error) {
             console.log(error);
@@ -100,7 +99,7 @@ exports.getAnimalPaginatedListApiSync = async (req, res) => {
     const max = parseInt(req.query.max) || 1;
     const skip = page * max;
 
-    await db.query('SELECT * FROM animal ORDER BY id DESC limit ?, ?', [skip, max], (error, results) => {
+    const result = await db.query('SELECT * FROM animal ORDER BY id DESC limit ?, ?', [skip, max], (error, results) => {
 
         if (error) {
             console.log(error);
@@ -135,7 +134,7 @@ exports.getAnimalByIdApiSync = async (req, res) => {
 
     const { id } = req.params;
 
-    await db.query('SELECT * FROM animal WHERE id = ?', [id], (error, results) => {
+    const result = await db.query('SELECT * FROM animal WHERE id = ?', [id], (error, results) => {
 
         if (error) {
             console.log(error);
@@ -173,7 +172,7 @@ exports.updateAnimalApiSync = async (req, res) => {
     const { id } = req.params;
     const { name, breed, age, color } = req.body;
 
-    await db.query('UPDATE animal SET name = ?, breed = ?, age = ?, color = ? WHERE id = ?', [name, breed, age, color, id], (error, results) => {
+    const result = await db.query('UPDATE animal SET name = ?, breed = ?, age = ?, color = ? WHERE id = ?', [name, breed, age, color, id], (error, results) => {
 
         if (error) {
             console.log(error); 
@@ -190,8 +189,6 @@ exports.deleteAnimalByIdApi = (req, res) => {
     const { id } = req.params;
 
     db.query('DELETE FROM animal WHERE id = ?', [id], (error, results) => {
-        console.log(results);
-
         if (error) {
             console.log(error); 
             return res.end(JSON.stringify({ "message": error, "status": false }));
@@ -206,9 +203,7 @@ exports.deleteAnimalByIdApiSync = async (req, res) => {
 
     const { id } = req.params;
 
-    await db.query('DELETE FROM animal WHERE id = ?', [id], (error, results) => {
-        console.log(results);
-
+    const result = await db.query('DELETE FROM animal WHERE id = ?', [id], (error, results) => {
         if (error) {
             console.log(error); 
             return res.end(JSON.stringify({ "message": error, "status": false }));

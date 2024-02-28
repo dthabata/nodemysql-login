@@ -157,7 +157,7 @@ exports.updateApiSync = async (req, res) => {
     try {
         const hashedPassword = await hashAsync(password, 8);
 
-        const results = await db.query('UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?', [name, email, hashedPassword, id]);
+        const result = await db.query('UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?', [name, email, hashedPassword, id]);
 
         res.end(JSON.stringify({ "message": "Usuário atualizado", "status": true }));
     } catch (error) {
@@ -185,7 +185,7 @@ exports.deleteApiSync = async (req, res) => {
     try {
         const { id } = req.params;
 
-        await db.query('DELETE FROM users WHERE id = ?', [id]);
+        const result = await db.query('DELETE FROM users WHERE id = ?', [id]);
 
         res.end(JSON.stringify({ "message": "Usuário deletado", "status": true }));
     } catch (error) {
